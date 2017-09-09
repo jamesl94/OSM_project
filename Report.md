@@ -30,7 +30,7 @@ A Jupyter notebook was used to parse through the raw XML Open Street Map data. D
 ___
 ### Data Cleaning
 ___
-Before the data was being copied into csv files it was cleaned based on information from the audit. The reason for the csv files was to have a step in-between the raw data and a sql database. 
+Before the data was being copied into csv files it was cleaned based on information from the audit. The reason for the csv files was to have a step in-between the raw data and a sql database.
 
 Running the data.py file, elements of the osm file are shaped into dictionaries and then searched for any attributes that were identified in the audit.
 
@@ -119,13 +119,18 @@ SELECT COUNT(*) FROM node_tags;
 ```
 #### Number of Users
 ```sql
-SELECT COUNT(DISTINCT(u.uid)) FROM (SELECT uid FROM node UNION ALL SELECT uid FROM way) u;
+SELECT COUNT(DISTINCT(u.uid))
+FROM (SELECT uid FROM node UNION ALL SELECT uid FROM way) u;
 
 926
 ```
 #### Top Users
-```sql
-SELECT u.user, COUNT(*) as users FROM (select user from node union all select user from way) u GROUP BY u.user ORDER BY users DESC LIMIT 10;
+```sqlite3
+SELECT u.user, COUNT(*) as users
+FROM (select user from node union all select user from way) u
+GROUP BY u.user
+ORDER BY users
+DESC LIMIT 10;
 
 carciofo|139333
 JLOSM|28483
@@ -143,8 +148,13 @@ ___
 ### Data Exploration
 ___
 #### Most Popular Cusine
-```sql
-SELECT value, COUNT(*) AS num FROM node_tags WHERE key = 'cuisine' GROUP BY value ORDER BY num DESC LIMIT 10;
+```sqlite3
+SELECT value, COUNT(*)
+AS num FROM node_tags
+WHERE key = 'cuisine'
+GROUP BY value
+ORDER BY num
+DESC LIMIT 10;
 
 regional|18
 burger|17
@@ -162,10 +172,10 @@ mexican|3
 #### Most Popular Amenities
 ```sqlite3
 SELECT value, COUNT(*)
-AS num FROM node_tags 
-WHERE key = 'amenity' 
-GROUP BY value 
-ORDER BY num DESC 
+AS num FROM node_tags
+WHERE key = 'amenity'
+GROUP BY value
+ORDER BY num DESC
 LIMIT 10;
 
 restaurant|192
@@ -182,8 +192,11 @@ bar|57
 
 
 #### Most Common Postcodes
-```sql
-SELECT value, COUNT(*) AS num FROM node_tags WHERE key = 'postcode' GROUP BY value ORDER BY num DESC; 
+```sqlite3
+SELECT value, COUNT(*) AS num
+FROM node_tags WHERE key = 'postcode'
+GROUP BY value
+ORDER BY num DESC;
 
 050021|5
 050022|5
@@ -203,7 +216,7 @@ SELECT value, COUNT(*) AS num FROM node_tags WHERE key = 'postcode' GROUP BY val
 ```
 
 #### Most Common Cities
-```sql
+```sqlite3
 SELECT value, COUNT(*) AS num FROM node_tags WHERE key = 'city' GROUP BY value ORDER BY num DESC;
 
 Medellín|278
@@ -230,8 +243,13 @@ ___
 ___
 It can be seen from the queries above that this dataset is not as complete as it could be. The OSM community could put stricter rules about what different cuisines or amenities can be named. Having the map data combine local and reginal cuisine would make for a more consise dataset. This lack of convention in certain values is clearer in values with lower counts
 
-```sql
-SELECT value, COUNT(*) AS num FROM node_tags WHERE key = 'cuisine' GROUP BY value ORDER BY num ASC LIMIT 10;
+```sqlite3
+SELECT value, COUNT(*) AS num
+FROM node_tags
+WHERE key = 'cuisine'
+GROUP BY value
+ORDER BY num ASC
+LIMIT 10;
 
 Arepas_rellenas_a_su_gusta,_hamburguesas,_perros_calientes,_jugos|1
 Café|1

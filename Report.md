@@ -125,7 +125,7 @@ FROM (SELECT uid FROM node UNION ALL SELECT uid FROM way) u;
 926
 ```
 #### Top Users
-```sqlite3
+```sql
 SELECT u.user, COUNT(*) as users
 FROM (select user from node union all select user from way) u
 GROUP BY u.user
@@ -148,7 +148,7 @@ ___
 ### Data Exploration
 ___
 #### Most Popular Cusine
-```sqlite3
+```sql
 SELECT value, COUNT(*)
 AS num FROM node_tags
 WHERE key = 'cuisine'
@@ -170,7 +170,7 @@ mexican|3
 
 
 #### Most Popular Amenities
-```sqlite3
+```sql
 SELECT value, COUNT(*)
 AS num FROM node_tags
 WHERE key = 'amenity'
@@ -192,7 +192,7 @@ bar|57
 
 
 #### Most Common Postcodes
-```sqlite3
+```sql
 SELECT value, COUNT(*) AS num
 FROM node_tags WHERE key = 'postcode'
 GROUP BY value
@@ -216,7 +216,7 @@ ORDER BY num DESC;
 ```
 
 #### Most Common Cities
-```sqlite3
+```sql
 SELECT value, COUNT(*) AS num FROM node_tags WHERE key = 'city' GROUP BY value ORDER BY num DESC;
 
 Medellín|278
@@ -243,7 +243,7 @@ ___
 ___
 It can be seen from the queries above that this dataset is not as complete as it could be. The OSM community could put stricter rules about what different cuisines or amenities can be named. Having the map data combine local and reginal cuisine would make for a more consise dataset. This lack of convention in certain values is clearer in values with lower counts
 
-```sqlite3
+```sql
 SELECT value, COUNT(*) AS num
 FROM node_tags
 WHERE key = 'cuisine'
